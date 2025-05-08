@@ -9,30 +9,40 @@ import CoreData
 
 struct PersistenceController {
     static let shared = PersistenceController()
-
+    
     @MainActor
-    static let preview: PersistenceController = {
-        let result = PersistenceController(inMemory: true)
-        let viewContext = result.container.viewContext
-        for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-        }
-        do {
-            try viewContext.save()
-        } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-        return result
-    }()
-
     let container: NSPersistentContainer
-
+    
+    static let preview: PersistenceController = {
+        let controller = PersistenceController(inMemory: true)
+        let context = controller.container.viewContext
+        
+        for i in 1...10 {
+            let plant = Plant(context: context)
+            plant.id = UUID()
+            plant.name = "Mock Plant \(i)"
+            plant.latinName = "Latin Name \(i)"
+            plant.descriptionText = "Description for plant \(i)"
+            plant.kingdom = "Kingdom \(i)"
+            plant.phylum = "Phylum \(i)"
+            plant.plantClass = "Class \(i)"
+            plant.order = "Order \(i)"
+            plant.family = "Family \(i)"
+            plant.genus = "Genus \(i)"
+            plant.createdAt = Date().addingTimeInterval(Double(-i) * 86400)
+        }
+        
+        do {
+            try context.save()
+        } catch {
+            print("Ошибка создания предпросмотра: \(error)")
+        }
+        
+        return controller
+    }()
+    
     init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "MyPlants")
+        container = NSPersistentContainer(name: "PlantModel")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
@@ -40,7 +50,7 @@ struct PersistenceController {
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-
+                
                 /*
                  Typical reasons for an error here include:
                  * The parent directory does not exist, cannot be created, or disallows writing.
