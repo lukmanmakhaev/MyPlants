@@ -9,15 +9,13 @@ import SwiftUI
 import CoreData
 
 struct HomeTabView: View {
-    @State private var selectedTab:  HomeTab = .plants
+    @State private var selectedTab: HomeTab = .plants
     @EnvironmentObject private var viewModel: HomeViewModel
+    @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
-        
         NavigationView {
-
             VStack {
-                
                 HStack(spacing: 8) {
                     Button(action: {
                         selectedTab = .plants
@@ -45,22 +43,25 @@ struct HomeTabView: View {
                 }
                 .padding(.horizontal, 63)
                 .padding(.bottom, 12)
-
+                
                 TabView(selection: $selectedTab) {
                     PlantsView()
+                        .environment(\.managedObjectContext, viewContext)
+                        .environmentObject(viewModel)
                         .tag(HomeTab.plants)
                     
                     HistoryView()
+                        .environment(\.managedObjectContext, viewContext)
+                        .environmentObject(viewModel)
                         .tag(HomeTab.history)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
-                .animation(.easeInOut(duration: 1.0), value: selectedTab)
-
-                
+                .animation(.easeInOut(duration: 1.0), value: selectedTab)  
             }
             .background(.bg)
             .navigationTitle("My garden")
             .navigationBarTitleDisplayMode(.inline)
+            .edgesIgnoringSafeArea(.bottom)
         }
     }
 }
@@ -70,5 +71,5 @@ struct HomeTabView: View {
     HomeTabView()
         .environmentObject(HomeViewModel(context: PersistenceController.shared.container.viewContext))
     
-
+    
 }

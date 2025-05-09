@@ -14,36 +14,36 @@ struct IdentificationView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                VStack {
-                    TextField("Название растения", text: $viewModel.name)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
-                    TextField("Название растения", text: $viewModel.latinName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
-                    TextField("Название растения", text: $viewModel.descriptionText)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
-                    Button("Добавить") {
-                        viewModel.addPlant()
-                    }
-                }
-                .padding()
-                
-                List(viewModel.plants, id: \.id) { plant in
-                    VStack(alignment: .leading) {
-                        Text(plant.name ?? "")
-                            .font(.headline)
-                        if let date = plant.createdAt {
-                            Text(date.formatted(date: .abbreviated, time: .shortened))
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                }
-            }
-            .navigationTitle("Мои растения")
+//            VStack {
+//                VStack {
+//                    TextField("Название растения", text: $viewModel.name)
+//                        .textFieldStyle(RoundedBorderTextFieldStyle())
+//                    
+//                    TextField("Название растения", text: $viewModel.latinName)
+//                        .textFieldStyle(RoundedBorderTextFieldStyle())
+//                    
+//                    TextField("Название растения", text: $viewModel.descriptionText)
+//                        .textFieldStyle(RoundedBorderTextFieldStyle())
+//                    
+//                    Button("Добавить") {
+//                        viewModel.addPlant()
+//                    }
+//                }
+//                .padding()
+//                
+//                List(viewModel.plants, id: \.id) { plant in
+//                    VStack(alignment: .leading) {
+//                        Text(plant.name ?? "")
+//                            .font(.headline)
+//                        if let date = plant.createdAt {
+//                            Text(date.formatted(date: .abbreviated, time: .shortened))
+//                                .font(.subheadline)
+//                                .foregroundColor(.secondary)
+//                        }
+//                    }
+//                }
+//            }
+//            .navigationTitle("Мои растения")
         }
     }
 }

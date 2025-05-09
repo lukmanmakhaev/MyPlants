@@ -12,45 +12,48 @@ struct PlantsView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var viewModel: HomeViewModel
     
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Plant.createdAt, ascending: false)],
+        animation: .default
+    )
+    private var plants: FetchedResults<Plant>
+    
+    let columns = [
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16)
+    ]
+    
     var body: some View {
-        NavigationView {
-            
-            ScrollView {
-                VStack {
-                    if viewModel.plants.isEmpty {
-                        
-                        CameraBannerView()
-                            .onTapGesture {
-                                viewModel.fetchPlants()
-                            }
-                        
-                    } else {
-                        Text("Clean memory")
-                            .onTapGesture {
-                                viewModel.deleteAllPlants()
-                            }
-                        
-                        List(viewModel.plants) { plant in
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(plant.name ?? "Unknown")
-                                    .font(.headline)
-                                Text(plant.latinName ?? "")
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                            }
+        ScrollView (showsIndicators: false) {
+            VStack {
+                if plants.isEmpty {
+                    
+                    CameraBannerView()
+                    
+                    Text("Add Mock Plants")
+                        .onTapGesture {
+                            viewModel.addMockPlants()
+                        }
+                    
+                } else {
+                    
+                    LazyVGrid(columns: columns, spacing: 16) {
+                        ForEach(plants) { plant in
+                            PlantListItemView(plant: plant)
+                                .environmentObject(viewModel)
                         }
                     }
                 }
-                .padding(8)
-                .padding(.horizontal, 8)
             }
-            .frame(maxWidth: .infinity)
-            .background(.bg)
+            .padding(8)
+            .padding(.horizontal, 8)
         }
+        .frame(maxWidth: .infinity)
+        .background(.bg)
     }
 }
 
-#Preview {
-    PlantsView()
-        .environmentObject(HomeViewModel(context: PersistenceController.shared.container.viewContext))
-}
+//#Preview {
+//    PlantsView()
+//        .environmentObject(HomeViewModel(context: PersistenceController.shared.container.viewContext))
+//}
