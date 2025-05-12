@@ -10,7 +10,7 @@ import CoreData
 
 struct PlantsView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject private var viewModel: HomeViewModel
+    @EnvironmentObject private var homeViewModel: HomeViewModel
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Plant.createdAt, ascending: false)],
@@ -32,7 +32,7 @@ struct PlantsView: View {
                     
                     Text("Add Mock Plants")
                         .onTapGesture {
-                            viewModel.addMockPlants()
+                            homeViewModel.addMockPlants()
                         }
                     
                 } else {
@@ -40,7 +40,7 @@ struct PlantsView: View {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(plants) { plant in
                             PlantListItemView(plant: plant)
-                                .environmentObject(viewModel)
+                                .environmentObject(homeViewModel)
                         }
                     }
                 }

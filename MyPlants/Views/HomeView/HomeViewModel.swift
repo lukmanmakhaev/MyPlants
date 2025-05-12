@@ -101,6 +101,7 @@ class HomeViewModel: ObservableObject {
             plant.order = "Order \(i)"
             plant.family = "Family \(i)"
             plant.genus = "Genus \(i)"
+            plant.percent = "67,6"
             plant.createdAt = Date().addingTimeInterval(Double(-i) * 86400)
             print("Added plant: \(plant.name ?? "Unknown")")
         }

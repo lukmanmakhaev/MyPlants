@@ -7,51 +7,73 @@
 
 import UIKit
 import AVFoundation
-import SwiftUI
 
 class CameraViewController: UIViewController {
-    private var captureSession: AVCaptureSession?
-    private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+    private let session = AVCaptureSession()
+    private var photoOutput = AVCapturePhotoOutput()
+    private var previewLayer: AVCaptureVideoPreviewLayer!
+    private var flashOn = false
+    
+    var onPhotoCapture: ((UIImage) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCamera()
+        configureSession()
     }
     
-    private func setupCamera() {
-        // Initialize the capture session
-        let session = AVCaptureSession()
-        session.sessionPreset = .photo
+    private func configureSession() {
+        session.beginConfiguration()
         
-        // Select the back camera
-        guard let backCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back),
-              let input = try? AVCaptureDeviceInput(device: backCamera) else {
-            print("Failed to access back camera")
+        // Camera input
+        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back),
+              let input = try? AVCaptureDeviceInput(device: device),
+              session.canAddInput(input) else {
             return
         }
+        session.addInput(input)
         
-        // Add input to session
-        if session.canAddInput(input) {
-            session.addInput(input)
-        }
+        // Photo output
+        guard session.canAddOutput(photoOutput) else { return }
+        session.addOutput(photoOutput)
+        session.sessionPreset = .photo
         
-        // Set up the preview layer
-        let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+        session.commitConfiguration()
+        
+        // Preview Layer
+        previewLayer = AVCaptureVideoPreviewLayer(session: session)
         previewLayer.videoGravity = .resizeAspectFill
         previewLayer.frame = view.bounds
         view.layer.addSublayer(previewLayer)
         
-        self.videoPreviewLayer = previewLayer
-        self.captureSession = session
-        
-        // Start the session
+        startSession()
+    }
+    
+    private func startSession() {
         DispatchQueue.global(qos: .userInitiated).async {
-            session.startRunning()
+            self.session.startRunning()
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        videoPreviewLayer?.frame = view.bounds
+    func toggleFlash() {
+        flashOn.toggle()
+    }
+    
+    func capturePhoto() {
+        let settings = AVCapturePhotoSettings()
+        settings.flashMode = flashOn ? .on : .off
+        photoOutput.capturePhoto(with: settings, delegate: self)
+    }
+}
+
+extension CameraViewController: AVCapturePhotoCaptureDelegate {
+    func photoOutput(_ output: AVCapturePhotoOutput,
+                     didFinishProcessingPhoto photo: AVCapturePhoto,
+                     error: Error?) {
+        guard let imageData = photo.fileDataRepresentation(),
+              let image = UIImage(data: imageData) else {
+            return
+        }
+        
+        onPhotoCapture?(image)
     }
 }

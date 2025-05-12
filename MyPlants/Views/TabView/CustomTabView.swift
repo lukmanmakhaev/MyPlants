@@ -8,38 +8,42 @@
 import SwiftUI
 
 struct CustomTabView: View {
-    @State private var selectedTab: Tab = .home
-    
     let persistenceController = PersistenceController.shared
-    @StateObject private var viewModel: HomeViewModel
+    
+    @StateObject private var homeViewModel: HomeViewModel
+    @StateObject private var cameraViewModel = CameraViewModel()
+    
+    @State private var selectedTab: Tab = .home
     
     init() {
         let context = persistenceController.container.viewContext
-        _viewModel = StateObject(wrappedValue: HomeViewModel(context: context))
+        _homeViewModel = StateObject(wrappedValue: HomeViewModel(context: context))
     }
     
-
+    
     var body: some View {
         ZStack(alignment: .bottom) {
-            // Direct switch inside the view hierarchy
             switch selectedTab {
             case .home:
                 HomeTabView()
+                    .environmentObject(homeViewModel)
+                
             case .camera:
-                CameraView()
+                CameraView ()
+                    .environmentObject(cameraViewModel)
+                
             case .settings:
                 SettingsView()
             }
-
+            
             TabBar(selectedTab: $selectedTab)
                 .padding(.horizontal, 67)
-                .padding(.bottom, 60)
+                .padding(.bottom, 50)
                 .shadow(color: .black.opacity(0.1), radius: 30, x: 0, y: 4)
-
+            
         }
         .edgesIgnoringSafeArea(.all)
         .environment(\.managedObjectContext, persistenceController.container.viewContext)
-        .environmentObject(viewModel)
     }
 }
 

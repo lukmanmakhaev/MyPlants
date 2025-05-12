@@ -27,7 +27,7 @@ struct CameraBannerView: View {
                     .font(.system(size: 16, weight: .semibold))
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(.accent)
+                    .background(.main)
                     .clipShape(.capsule)
                     .padding(.horizontal, 35)
             })

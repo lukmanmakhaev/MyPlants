@@ -21,7 +21,7 @@ struct TabBar: View {
                         .resizable()
                         .renderingMode(.template) // Important for color change
                         .frame(width: 24, height: 24)
-                        .foregroundColor(selectedTab == tab ? .accentColor : .gray)
+                        .foregroundColor(selectedTab == tab ? .main : .gray)
                         .scaleEffect(selectedTab == tab ? 1.25 : 1.0)
                         .onTapGesture {
                             withAnimation(.easeIn(duration: 0.1)) {

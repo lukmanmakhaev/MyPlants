@@ -1,6 +1,7 @@
 {
-  "colors" : [
+  "images" : [
     {
+      "filename" : "instruction5.png",
       "idiom" : "universal"
     }
   ],
