@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PlantImage: Codable {
+struct PlantImage: Codable, Equatable {
     let value: String
     let citation: String?
     let licenseName: String?

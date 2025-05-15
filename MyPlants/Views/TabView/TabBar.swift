@@ -19,7 +19,7 @@ struct TabBar: View {
                 }) {
                     Image(tab.rawValue)
                         .resizable()
-                        .renderingMode(.template) // Important for color change
+                        .renderingMode(.template)
                         .frame(width: 24, height: 24)
                         .foregroundColor(selectedTab == tab ? .main : .gray)
                         .scaleEffect(selectedTab == tab ? 1.25 : 1.0)

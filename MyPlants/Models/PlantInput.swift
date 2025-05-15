@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct PlantInput: Codable {
+struct PlantInput: Codable, Equatable {
+    let latitude: Double
+    let longitude: Double
+    let similarImages: Bool
     let images: [String]
     let datetime: String
-    let latitude: Double?
-    let longitude: Double?
-    let similarImages: Bool?
 
     enum CodingKeys: String, CodingKey {
-        case images, datetime, latitude, longitude
+        case latitude, longitude, images, datetime
         case similarImages = "similar_images"
     }
 }

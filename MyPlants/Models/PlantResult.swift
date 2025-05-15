@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct PlantResult: Codable {
-    let isPlant: IsPlant
+struct PlantResult: Codable, Equatable {
+    let isPlant: IsPlant?
     let classification: Classification
 
     enum CodingKeys: String, CodingKey {

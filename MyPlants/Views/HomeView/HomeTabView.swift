@@ -9,67 +9,72 @@ import SwiftUI
 import CoreData
 
 struct HomeTabView: View {
-    @State private var selectedTab: HomeTab = .plants
+    @State private var selectedHomeTab: HomeTab = .plants
+    @Binding var selectedTab: Tab
     @EnvironmentObject private var homeViewModel: HomeViewModel
-    @Environment(\.managedObjectContext) private var viewContext
+    
     
     var body: some View {
         NavigationView {
-            VStack {
+            VStack (spacing: 8) {
                 HStack(spacing: 8) {
                     Button(action: {
-                        selectedTab = .plants
+                        selectedHomeTab = .plants
                     }) {
                         Text("Plants")
                             .font(.system(size: 16))
-                            .fontWeight(selectedTab == .plants ? .semibold : .regular)
-                            .foregroundColor(selectedTab == .history ? .black : .white)
+                            .fontWeight(selectedHomeTab == .plants ? .semibold : .regular)
+                            .foregroundColor(selectedHomeTab == .history ? .black : .white)
                             .frame(width: 120, height: 44)
-                            .background(selectedTab == .plants ? Color.main : Color.white)
+                            .background(selectedHomeTab == .plants ? Color.main : Color.white)
                             .clipShape(RoundedRectangle(cornerRadius: 25))
                     }
                     
                     Button(action: {
-                        selectedTab = .history
+                        selectedHomeTab = .history
                     }) {
                         Text("History")
                             .font(.system(size: 16))
-                            .fontWeight(selectedTab == .history ? .semibold : .regular)
-                            .foregroundColor(selectedTab == .history ? .white : .black)
+                            .fontWeight(selectedHomeTab == .history ? .semibold : .regular)
+                            .foregroundColor(selectedHomeTab == .history ? .white : .black)
                             .frame(width: 120, height: 44)
-                            .background(selectedTab == .history ? Color.main : Color.white)
+                            .background(selectedHomeTab == .history ? Color.main : Color.white)
                             .clipShape(RoundedRectangle(cornerRadius: 25))
                     }
                 }
                 .padding(.horizontal, 63)
-                .padding(.bottom, 12)
                 
-                TabView(selection: $selectedTab) {
-                    PlantsView()
-                        .environment(\.managedObjectContext, viewContext)
+                TabView(selection: $selectedHomeTab) {
+                    PlantsView(selectedTab: $selectedTab)
                         .environmentObject(homeViewModel)
                         .tag(HomeTab.plants)
                     
-                    HistoryView()
-                        .environment(\.managedObjectContext, viewContext)
+                    HistoryView(selectedTab: $selectedTab)
                         .environmentObject(homeViewModel)
                         .tag(HomeTab.history)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
-                .animation(.easeInOut(duration: 1.0), value: selectedTab)  
+                .animation(.easeInOut(duration: 1.0), value: selectedHomeTab)
             }
             .background(.bg)
-            .navigationTitle("My garden")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
             .edgesIgnoringSafeArea(.bottom)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("My garden")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundStyle(.darkAccent)
+                        .frame(height: 25)
+                        .padding(12)
+                }
+            }
         }
     }
 }
 
 
 #Preview {
-    HomeTabView()
-        .environmentObject(HomeViewModel(context: PersistenceController.shared.container.viewContext))
-    
-    
+    HomeTabView(selectedTab: .constant(.home))
+        .environmentObject(HomeViewModel(repository: CoreDataPlantRepository(context: PersistenceController.shared.container.viewContext)))
 }

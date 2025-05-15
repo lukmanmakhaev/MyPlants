@@ -19,7 +19,6 @@ final class CameraViewModel: ObservableObject {
     @Published var showPermissionAlert: Bool = false
     @Published var recentPhotos: [UIImage] = []
 
-    
     func toggleFlash() {
         cameraController?.toggleFlash()
         isFlashOn.toggle()
@@ -96,7 +95,6 @@ final class CameraViewModel: ObservableObject {
             return results
         }
 
-        // Sort by original index
         let sortedImages = indexedImages
             .sorted(by: { $0.0 < $1.0 })
             .map { $0.1 }

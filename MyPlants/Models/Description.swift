@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Description: Codable {
+struct Description: Codable, Equatable {
     let value: String?
     let citation: String?
     let licenseName: String?

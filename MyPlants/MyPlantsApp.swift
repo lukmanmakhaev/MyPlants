@@ -6,14 +6,29 @@
 //
 
 import SwiftUI
-import CoreData
 
 @main
 struct MyPlantsApp: App {
+    @StateObject private var subscriptionManager = SubscriptionManager()
     
     var body: some Scene {
         WindowGroup {
-            CustomTabView()
+            Group {
+                if !subscriptionManager.isInitialized {
+                    Color.bg.ignoresSafeArea()
+                        .overlay(ProgressView())
+                } else {
+                    ZStack {
+                        if subscriptionManager.isSubscribed {
+                            CustomTabView()
+                        } else {
+                            OnboardingView()
+                                .environmentObject(subscriptionManager)
+                        }
+                    }
+                    .animation(.easeInOut(duration: 0.3), value: subscriptionManager.isSubscribed)
+                }
+            }
         }
     }
 }

@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct Classification: Codable {
+struct Classification: Codable, Equatable {
     let suggestions: [Suggestion]
 }

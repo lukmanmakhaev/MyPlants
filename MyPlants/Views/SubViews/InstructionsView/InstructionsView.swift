@@ -21,9 +21,12 @@ struct InstructionsView: View {
                 
                 InstructionItem(title: "Don’t get your camera too close to the plant.", description: "Make sure to keep at least one whole leaf or flower in focus.", image1: "instruction5", image2: "instruction6")
             }
+            .padding(.bottom, 42)
         }
         .padding()
         .background(.colorGray)
+        .ignoresSafeArea(.all)
+        
     }
 }
 

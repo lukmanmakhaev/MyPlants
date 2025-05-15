@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Taxonomy: Codable {
+struct Taxonomy: Codable, Equatable {
     let kingdom, phylum, order, family, genus, `class`: String?
 
     enum CodingKeys: String, CodingKey {

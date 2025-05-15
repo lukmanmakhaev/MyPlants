@@ -9,14 +9,8 @@ import SwiftUI
 import CoreData
 
 struct PlantsView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var homeViewModel: HomeViewModel
-    
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Plant.createdAt, ascending: false)],
-        animation: .default
-    )
-    private var plants: FetchedResults<Plant>
+    @Binding var selectedTab: Tab
     
     let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -26,34 +20,33 @@ struct PlantsView: View {
     var body: some View {
         ScrollView (showsIndicators: false) {
             VStack {
-                if plants.isEmpty {
-                    
-                    CameraBannerView()
-                    
-                    Text("Add Mock Plants")
-                        .onTapGesture {
-                            homeViewModel.addMockPlants()
-                        }
+                if homeViewModel.plants.isEmpty {
+                    CameraBannerView(selectedTab: $selectedTab)
                     
                 } else {
                     
                     LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(plants) { plant in
-                            PlantListItemView(plant: plant)
-                                .environmentObject(homeViewModel)
+                        ForEach(homeViewModel.plants) { plant in
+                            NavigationLink(destination: {
+                                PlantDetailsView(plant: plant)
+                            }, label: {
+                                PlantListItemView(plant: plant)
+                                    .environmentObject(homeViewModel)
+                            })
+                            .foregroundStyle(.darkAccent)
                         }
                     }
                 }
             }
-            .padding(8)
-            .padding(.horizontal, 8)
+            .padding(.top, 12)
+            .padding(.horizontal, 16)
         }
         .frame(maxWidth: .infinity)
         .background(.bg)
     }
 }
 
-//#Preview {
-//    PlantsView()
-//        .environmentObject(HomeViewModel(context: PersistenceController.shared.container.viewContext))
-//}
+#Preview {
+    PlantsView(selectedTab: .constant(.home))
+        .environmentObject(HomeViewModel(repository: CoreDataPlantRepository(context: PersistenceController.shared.container.viewContext)))
+}

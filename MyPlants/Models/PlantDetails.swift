@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PlantDetails: Codable {
+struct PlantDetails: Codable, Equatable {
     let commonNames: [String]?
     let taxonomy: Taxonomy?
     let url: String?

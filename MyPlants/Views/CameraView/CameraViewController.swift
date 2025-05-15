@@ -24,7 +24,6 @@ class CameraViewController: UIViewController {
     private func configureSession() {
         session.beginConfiguration()
         
-        // Camera input
         guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back),
               let input = try? AVCaptureDeviceInput(device: device),
               session.canAddInput(input) else {
@@ -32,14 +31,12 @@ class CameraViewController: UIViewController {
         }
         session.addInput(input)
         
-        // Photo output
         guard session.canAddOutput(photoOutput) else { return }
         session.addOutput(photoOutput)
         session.sessionPreset = .photo
         
         session.commitConfiguration()
         
-        // Preview Layer
         previewLayer = AVCaptureVideoPreviewLayer(session: session)
         previewLayer.videoGravity = .resizeAspectFill
         previewLayer.frame = view.bounds

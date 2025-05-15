@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SimilarImage: Codable {
+struct SimilarImage: Codable, Equatable {
     let id: String
     let url: String
     let licenseName: String?

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct IsPlant: Codable {
+struct IsPlant: Codable, Equatable {
     let binary: Bool
     let threshold: Double
     let probability: Double

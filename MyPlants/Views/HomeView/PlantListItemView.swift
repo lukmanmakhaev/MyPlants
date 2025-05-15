@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import NukeUI
 
 struct PlantListItemView: View {
-    @EnvironmentObject private var viewModel: HomeViewModel
-    
+    @EnvironmentObject private var homeViewModel: HomeViewModel
+    @State var showDeleteAlert = false
     @State var plant = Plant()
     @State var showMenu = false
     
@@ -18,12 +19,21 @@ struct PlantListItemView: View {
             ZStack (alignment: .topTrailing) {
                 
                 GeometryReader { geo in
-                    Image("mock")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: geo.size.width, height: 144)
-                        .clipped()
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    
+                    LazyImage(url: URL(string: plant.imageUrls?.first ?? "")) { state in
+                        if let image = state.image {
+                            image
+                                .resizable()
+                                .scaledToFill()
+                        } else if state.error != nil {
+                            Color.colorGray
+                        } else {
+                            ProgressView()
+                        }
+                    }
+                    .frame(width: geo.size.width, height: 144)
+                    .clipped()
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
                 
                 Button(action: {
@@ -40,7 +50,7 @@ struct PlantListItemView: View {
                 
                 if showMenu {
                     PopOver(onDelete: {
-                        viewModel.deletePlant(plant)
+                        showDeleteAlert = true
                     })
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .padding(.leading)
@@ -50,7 +60,7 @@ struct PlantListItemView: View {
             
             Text(plant.name ?? "Scindapsus")
                 .font(.system(size: 16))
-                .tracking(2)
+                .tracking(0.2)
                 .multilineTextAlignment(.center)
                 .frame(height: 42)
             
@@ -60,7 +70,14 @@ struct PlantListItemView: View {
         .frame(height: 218)
         .background(.white)
         .clipShape(RoundedRectangle(cornerRadius: 20))
-        
+        .alert("Do you really want to delete the plant?", isPresented: $showDeleteAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                homeViewModel.deletePlant(plant)
+            }
+        } message: {
+            Text("This action cannot be undone")
+        }
     }
 }
 

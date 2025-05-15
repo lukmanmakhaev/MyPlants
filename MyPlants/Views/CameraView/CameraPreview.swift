@@ -9,6 +9,9 @@ import SwiftUI
 
 struct CameraPreview: View {
     @Binding var capturedImage: UIImage?
+    @EnvironmentObject var identificationVM: IdentificationViewModel
+    @EnvironmentObject var cameraViewModel: CameraViewModel
+    
     var body: some View {
         VStack {
             if let image = capturedImage {
@@ -47,7 +50,14 @@ struct CameraPreview: View {
                         
                         HStack (spacing: 8) {
                             Button(action: {
-                                
+                                withAnimation {
+                                    identificationVM.showResult = true
+                                }
+                                Task {
+                                    if let image = cameraViewModel.capturedImage {
+                                        await identificationVM.identify(image: image)
+                                    }
+                                }
                             }) {
                                 Text("Identification")
                                     .padding(16)
@@ -57,6 +67,8 @@ struct CameraPreview: View {
                                     .foregroundStyle(.white)
                                     .clipShape(Capsule())
                             }
+
+
                             
                             Button(action: {
                                 
@@ -73,13 +85,17 @@ struct CameraPreview: View {
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 122)
+                    
                 }
             }
         }
+        .ignoresSafeArea(.all)
+        .navigationBarHidden(true)
     }
 }
 
 
-#Preview {
-    CameraPreview(capturedImage: .constant(UIImage(named: "dev")))
-}
+//#Preview {
+//    CameraPreview(capturedImage: .constant(UIImage(named: "dev")))
+//        .environmentObject(HomeViewModel)
+//}

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PlantIDResponse: Codable {
+struct PlantIDResponse: Codable, Equatable {
     let accessToken: String
     let modelVersion: String
     let input: PlantInput

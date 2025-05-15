@@ -8,19 +8,24 @@
 import SwiftUI
 
 struct CameraBannerView: View {
+    @EnvironmentObject private var homeViewModel: HomeViewModel
+    @Binding var selectedTab: Tab
+    
     var body: some View {
         VStack (spacing: 12) {
             VStack (spacing: 4){
                 Text("There are no plants in your garden yet")
                     .font(.system(size: 14))
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.iconsTertiary2)
                 
-                Text("Identify your first plant using the camera or upload a photo")
+                Text("Identify your first plant using the camera or\nupload a photo")
                     .font(.system(size: 14))
+                    .foregroundColor(.darkAccent)
+                    .multilineTextAlignment(.center)
             }
             
             Button(action: {
-                
+                selectedTab = .camera
             }, label: {
                 Text("Open the camera")
                     .foregroundStyle(.white)
@@ -32,7 +37,6 @@ struct CameraBannerView: View {
                     .padding(.horizontal, 35)
             })
         }
-        
         .padding(16)
         .padding(.vertical, 8)
         .overlay(alignment: .bottomLeading, content: {
@@ -53,5 +57,5 @@ struct CameraBannerView: View {
 }
 
 #Preview {
-    CameraBannerView()
+    CameraBannerView(selectedTab: .constant(.home))
 }

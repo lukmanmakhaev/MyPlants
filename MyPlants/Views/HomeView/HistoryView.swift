@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct HistoryView: View {
+    @Binding var selectedTab: Tab
+    
     var body: some View {
         NavigationView {
             
             ScrollView {
                 VStack {
-                    CameraBannerView()
+                    CameraBannerView(selectedTab: $selectedTab)
                 }
                 .padding(8)
                 .padding(.horizontal, 8)
@@ -25,5 +27,5 @@ struct HistoryView: View {
 }
 
 #Preview {
-    HistoryView()
+    HistoryView(selectedTab: .constant(.home))
 }
