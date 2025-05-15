@@ -82,10 +82,10 @@ struct PlantListItemView: View {
 }
 
 
-
-#Preview {
-    let context = PersistenceController.preview.container.viewContext
-    let plant = Plant(context: context)
-    
-    return PlantListItemView(plant: plant)
-}
+//
+//#Preview {
+//    let context = PersistenceController.preview.container.viewContext
+//    let plant = Plant(context: context)
+//    
+//    PlantListItemView(plant: plant)
+//}
