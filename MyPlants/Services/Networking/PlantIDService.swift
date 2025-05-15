@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 final class PlantIDService: PlantIDServiceProtocol {
-    private let apiKey = "l5bdcL6et21Dxe4zOYcjWlpX14Ph4ferGJ3KfZAGB9cVOZhtD1"
+    private let apiKey = ""
 
     func identify(image: UIImage) async throws -> PlantIDResponse {
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
