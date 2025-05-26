@@ -33,7 +33,7 @@ struct PhotoStripView: View {
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundStyle(.white)
                         
-                        Image("arrow")
+                        Image(.arrow)
                             .resizable()
                             .frame(width: 20, height: 20)
                             .scaledToFit()

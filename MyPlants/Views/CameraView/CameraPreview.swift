@@ -37,7 +37,7 @@ struct CameraPreview: View {
                                     Circle()
                                         .fill(.ultraThinMaterial)
                                         .frame(width: 48, height: 48)
-                                    Image("close")
+                                    Image(.close)
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 24, height: 24)

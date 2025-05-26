@@ -26,3 +26,6 @@ struct PersistenceController {
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
 }
+
+//dobavit init proverku
+

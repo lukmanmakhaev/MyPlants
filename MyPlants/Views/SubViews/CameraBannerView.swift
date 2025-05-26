@@ -40,13 +40,13 @@ struct CameraBannerView: View {
         .padding(16)
         .padding(.vertical, 8)
         .overlay(alignment: .bottomLeading, content: {
-            Image("banner1")
+            Image(.banner1)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 90, height: 60)
         })
         .overlay(alignment: .topTrailing, content: {
-            Image("banner2")
+            Image(.banner2)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 102, height: 42)

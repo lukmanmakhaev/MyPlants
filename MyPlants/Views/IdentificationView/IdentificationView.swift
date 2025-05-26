@@ -75,7 +75,7 @@ struct IdentificationView: View {
                 Button(action: {
                     dismiss()
                 }) {
-                    Image("arrow")
+                    Image(.arrow)
                         .renderingMode(.template)
                         .resizable()
                         .scaledToFit()

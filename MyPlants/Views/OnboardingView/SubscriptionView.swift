@@ -24,7 +24,7 @@ struct SubscriptionView: View {
     
     var body: some View {
         ZStack (alignment: .top) {
-            Image("subs")
+            Image(.subs)
                 .resizable()
                 .scaledToFill()
                 .frame(height: 472)
@@ -33,7 +33,7 @@ struct SubscriptionView: View {
                 Spacer()
                 
                 VStack(spacing: 12) {
-                    Image("subs1")
+                    Image(.subs1)
                         .resizable()
                         .scaledToFill()
                         .frame(height: 80)
@@ -71,7 +71,7 @@ struct SubscriptionView: View {
                         }
                     }, label: {
                         if subscriptionManager.isLoading {
-                            Image("loader")
+                            Image(.loader)
                                 .resizable()
                                 .frame(width: 24, height: 24)
                                 .scaledToFit()
@@ -146,7 +146,7 @@ struct SubscriptionView: View {
                         Circle()
                             .fill(.white)
                             .frame(width: 48, height: 48)
-                        Image("close")
+                        Image(.close)
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()

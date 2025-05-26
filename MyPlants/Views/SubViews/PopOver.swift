@@ -16,7 +16,7 @@ struct PopOver: View {
                 print("Rename tapped")
             }) {
                 HStack(spacing: 8) {
-                    Image("pen")
+                    Image(.pen)
                         .resizable()
                         .renderingMode(.template)
                         .scaledToFit()
@@ -36,7 +36,7 @@ struct PopOver: View {
                 print("Delete tapped")
             }, label: {
                 HStack(spacing: 8) {
-                    Image("trash")
+                    Image(.trash)
                         .resizable()
                         .renderingMode(.template)
                         .scaledToFit()

@@ -3,7 +3,7 @@
 //  MyPlants
 //
 //  Created by Lukman Makhaev on 09.05.2025.
-//
+//observable
 
 import SwiftUI
 import Photos
@@ -32,7 +32,7 @@ struct CameraView: View {
                                     Circle()
                                         .fill(.ultraThinMaterial)
                                         .frame(width: 48, height: 48)
-                                    Image("bolt")
+                                    Image(.bolt)
                                         .renderingMode(.template)
                                         .resizable()
                                         .scaledToFit()
@@ -64,7 +64,7 @@ struct CameraView: View {
                                     Circle()
                                         .fill(.ultraThinMaterial)
                                         .frame(width: 60, height: 60)
-                                    Image("gallery")
+                                    Image(.gallery)
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 24, height: 24)
@@ -92,7 +92,7 @@ struct CameraView: View {
                                     Circle()
                                         .fill(.ultraThinMaterial)
                                         .frame(width: 60, height: 60)
-                                    Image("guide")
+                                    Image(.guide)
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 24, height: 24)
@@ -107,7 +107,7 @@ struct CameraView: View {
                         }
                     }
                     
-                    Image("frame")
+                    Image(.frame)
                         .resizable()
                         .scaledToFit()
                         .padding(.horizontal, 32)

@@ -15,8 +15,9 @@ struct MyPlantsApp: App {
         WindowGroup {
             Group {
                 if !subscriptionManager.isInitialized {
-                    Color.bg.ignoresSafeArea()
-                        .overlay(ProgressView())
+                    withAnimation {
+                        LaunchScreen()
+                    }
                 } else {
                     ZStack {
                         if subscriptionManager.isSubscribed {
@@ -27,6 +28,7 @@ struct MyPlantsApp: App {
                         }
                     }
                     .animation(.easeInOut(duration: 0.3), value: subscriptionManager.isSubscribed)
+                    .animation(.easeInOut(duration: 0.3), value: subscriptionManager.isInitialized)
                 }
             }
         }

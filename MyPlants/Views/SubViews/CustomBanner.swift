@@ -20,7 +20,7 @@ struct CustomBanner: View {
         }
         .frame(maxWidth: .infinity)
         .frame(height: 93)
-        .background(Image("bannerBG").resizable().scaledToFill())
+        .background(Image(.bannerBG).resizable().scaledToFill())
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .shadow(color: Color.black.opacity(0.2), radius: 12, x: 0, y: 6)
         .transition(.move(edge: .top).combined(with: .opacity))
